@@ -1,0 +1,122 @@
+```html
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>生日快乐 🎂</title>
+<style>
+body {
+    margin: 0;
+    background: linear-gradient(to top, #ff9a9e, #fad0c4);
+    overflow: hidden;
+    font-family: "Arial";
+    text-align: center;
+    color: white;
+}
+h1 {
+    margin-top: 80px;
+    font-size: 50px;
+    animation: glow 2s infinite alternate;
+}
+@keyframes glow {
+    from { text-shadow: 0 0 10px white; }
+    to { text-shadow: 0 0 30px yellow; }
+}
+button {
+    padding: 15px 30px;
+    font-size: 20px;
+    border: none;
+    border-radius: 10px;
+    background: #ff6b81;
+    color: white;
+    cursor: pointer;
+}
+.heart {
+    position: absolute;
+    color: pink;
+    animation: float 5s linear infinite;
+}
+@keyframes float {
+    from { transform: translateY(100vh); }
+    to { transform: translateY(-10vh); }
+}
+.firework {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: yellow;
+    border-radius: 50%;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎂 Happy Birthday！</h1>
+<p>祝你天天开心，梦想成真 💖</p>
+
+<button onclick="showSurprise()">点我有惊喜 🎁</button>
+
+<audio id="music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+</audio>
+
+<br><br>
+<button onclick="toggleMusic()">🎵 音乐开关</button>
+
+<script>
+// 爱心动画
+setInterval(() => {
+    let heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 20 + 20 + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 5000);
+}, 300);
+
+// 点击烟花
+document.addEventListener("click", (e) => {
+    for (let i = 0; i < 20; i++) {
+        let fw = document.createElement("div");
+        fw.className = "firework";
+        fw.style.left = e.clientX + "px";
+        fw.style.top = e.clientY + "px";
+        document.body.appendChild(fw);
+
+        let angle = Math.random() * 2 * Math.PI;
+        let distance = Math.random() * 100;
+
+        fw.animate([
+            { transform: "translate(0,0)" },
+            { transform: `translate(${Math.cos(angle)*distance}px, ${Math.sin(angle)*distance}px)` }
+        ], {
+            duration: 800,
+            easing: "ease-out"
+        });
+
+        setTimeout(() => fw.remove(), 800);
+    }
+});
+
+// 惊喜按钮
+function showSurprise() {
+    alert("🎉 生日快乐！愿你每天都闪闪发光 ✨");
+}
+
+// 音乐控制
+function toggleMusic() {
+    let music = document.getElementById("music");
+    if (music.paused) {
+        music.play();
+    } else {
+        music.pause();
+    }
+}
+</script>
+
+</body>
+</html>
+```
