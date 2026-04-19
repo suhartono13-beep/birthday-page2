@@ -1,122 +1,170 @@
-```html
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-<meta charset="UTF-8">
-<title>生日快乐 🎂</title>
-<style>
-body {
-    margin: 0;
-    background: linear-gradient(to top, #ff9a9e, #fad0c4);
-    overflow: hidden;
-    font-family: "Arial";
-    text-align: center;
-    color: white;
-}
-h1 {
-    margin-top: 80px;
-    font-size: 50px;
-    animation: glow 2s infinite alternate;
-}
-@keyframes glow {
-    from { text-shadow: 0 0 10px white; }
-    to { text-shadow: 0 0 30px yellow; }
-}
-button {
-    padding: 15px 30px;
-    font-size: 20px;
-    border: none;
-    border-radius: 10px;
-    background: #ff6b81;
-    color: white;
-    cursor: pointer;
-}
-.heart {
-    position: absolute;
-    color: pink;
-    animation: float 5s linear infinite;
-}
-@keyframes float {
-    from { transform: translateY(100vh); }
-    to { transform: translateY(-10vh); }
-}
-.firework {
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    background: yellow;
-    border-radius: 50%;
-}
-</style>
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>生日快乐 🎂</title>
+    <style>
+        :root {
+            --primary-color: #ff6b81;
+            --glass-bg: rgba(255, 255, 255, 0.25);
+        }
 
+        * {
+            /* 禁用移动端点击高亮阴影 */
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: env(safe-area-inset-top) 20px env(safe-area-inset-bottom) 20px;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 12s ease infinite;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            overflow: hidden;
+            color: white;
+            text-align: center;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px; /* 适配大屏手机 */
+            padding: 40px 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin: 0 0 10px 0;
+            letter-spacing: 1px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 35px;
+            line-height: 1.5;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        button {
+            width: 100%;
+            height: 54px; /* 适合手指点击的高度 */
+            font-size: 18px;
+            border: none;
+            border-radius: 27px;
+            background: white;
+            color: var(--primary-color);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 移动端按下时的缩放效果 */
+        button:active {
+            transform: scale(0.92);
+            filter: brightness(0.9);
+        }
+
+        .music-btn {
+            background: rgba(255, 255, 255, 0.1) !important;
+            color: white !important;
+            border: 1px solid rgba(255, 255, 255, 0.5) !important;
+        }
+
+        .heart {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1;
+            will-change: transform;
+            animation: floatUp 5s linear forwards;
+            filter: drop-shadow(0 0 5px rgba(255,192,203,0.5));
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(105vh) scale(0.5) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.2) rotate(20deg); opacity: 0; }
+        }
+    </style>
+</head>
 <body>
 
-<h1>🎂 Happy Birthday！</h1>
-<p>祝你天天开心，梦想成真 💖</p>
+    <div class="container">
+        <h1>🎂 生日快乐</h1>
+        <p>愿所有美好如期而至<br>永远年轻，永远热泪盈眶 💖</p>
+        
+        <div class="btn-group">
+            <button onclick="showSurprise()">点击领取惊喜 🎁</button>
+            <button onclick="toggleMusic()" class="music-btn">🎵 音乐开关</button>
+        </div>
+    </div>
 
-<button onclick="showSurprise()">点我有惊喜 🎁</button>
+    <audio id="music" loop preload="auto">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+    </audio>
 
-<audio id="music" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
-</audio>
+    <script>
+        // 降低手机端的生成频率，节省电量和性能
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.className = "heart";
+            heart.innerHTML = "💖";
+            heart.style.left = Math.random() * 95 + "vw";
+            heart.style.fontSize = Math.random() * 15 + 15 + "px";
+            
+            const duration = Math.random() * 2 + 4;
+            heart.style.animationDuration = duration + "s";
+            
+            document.body.appendChild(heart);
 
-<br><br>
-<button onclick="toggleMusic()">🎵 音乐开关</button>
+            setTimeout(() => heart.remove(), duration * 1000);
+        }
 
-<script>
-// 爱心动画
-setInterval(() => {
-    let heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "💖";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = Math.random() * 20 + 20 + "px";
-    document.body.appendChild(heart);
+        // 手机端每 600ms 生成一个爱心即可，视觉效果已足够
+        setInterval(createHeart, 600);
 
-    setTimeout(() => heart.remove(), 5000);
-}, 300);
+        function showSurprise() {
+            // 使用更友好的提示
+            alert("✨ 祝你：\n\n三餐四季 温暖有趣\n生日快乐，我的朋友！");
+        }
 
-// 点击烟花
-document.addEventListener("click", (e) => {
-    for (let i = 0; i < 20; i++) {
-        let fw = document.createElement("div");
-        fw.className = "firework";
-        fw.style.left = e.clientX + "px";
-        fw.style.top = e.clientY + "px";
-        document.body.appendChild(fw);
-
-        let angle = Math.random() * 2 * Math.PI;
-        let distance = Math.random() * 100;
-
-        fw.animate([
-            { transform: "translate(0,0)" },
-            { transform: `translate(${Math.cos(angle)*distance}px, ${Math.sin(angle)*distance}px)` }
-        ], {
-            duration: 800,
-            easing: "ease-out"
-        });
-
-        setTimeout(() => fw.remove(), 800);
-    }
-});
-
-// 惊喜按钮
-function showSurprise() {
-    alert("🎉 生日快乐！愿你每天都闪闪发光 ✨");
-}
-
-// 音乐控制
-function toggleMusic() {
-    let music = document.getElementById("music");
-    if (music.paused) {
-        music.play();
-    } else {
-        music.pause();
-    }
-}
-</script>
-
+        const music = document.getElementById("music");
+        function toggleMusic() {
+            if (music.paused) {
+                music.play().catch(() => {
+                    alert("由于手机系统限制，请再次点击按钮以播放音乐 🎵");
+                });
+            } else {
+                music.pause();
+            }
+        }
+    </script>
 </body>
 </html>
-```
