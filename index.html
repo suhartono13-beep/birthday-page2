@@ -3,167 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>生日快乐 🎂</title>
+    <title>老哥，启动！🚀</title>
     <style>
         :root {
-            --primary-color: #ff6b81;
-            --glass-bg: rgba(255, 255, 255, 0.25);
-        }
-
-        * {
-            /* 禁用移动端点击高亮阴影 */
-            -webkit-tap-highlight-color: transparent;
-            box-sizing: border-box;
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00ff;
+            --neon-green: #39ff14;
         }
 
         body {
             margin: 0;
-            padding: env(safe-area-inset-top) 20px env(safe-area-inset-bottom) 20px;
+            padding: 0;
             height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradientBG 12s ease infinite;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #0a0a0a; /* 酷炫深色背景 */
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
             overflow: hidden;
             color: white;
-            text-align: center;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* 赛博朋克网格背景 */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            transform: perspective(500px) rotateX(60deg);
+            bottom: -50%;
+            z-index: 1;
+            animation: gridMove 2s linear infinite;
         }
 
-        .container {
-            width: 100%;
-            max-width: 400px; /* 适配大屏手机 */
-            padding: 40px 20px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        @keyframes gridMove {
+            from { background-position: 0 0; }
+            to { background-position: 0 30px; }
+        }
+
+        .main-ui {
             z-index: 10;
+            text-align: center;
+            width: 90%;
         }
 
-        h1 {
-            font-size: 2.2rem;
-            margin: 0 0 10px 0;
-            letter-spacing: 1px;
+        .title-zone h1 {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            margin: 0;
+            background: linear-gradient(to right, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px var(--neon-blue));
         }
 
-        p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            margin-bottom: 35px;
-            line-height: 1.5;
+        .subtitle {
+            font-size: 0.9rem;
+            color: var(--neon-blue);
+            letter-spacing: 4px;
+            margin-bottom: 40px;
         }
 
-        .btn-group {
+        /* 模拟技能槽 */
+        .skill-slots {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 15px;
+            margin-bottom: 30px;
         }
 
-        button {
-            width: 100%;
-            height: 54px; /* 适合手指点击的高度 */
-            font-size: 18px;
-            border: none;
-            border-radius: 27px;
-            background: white;
-            color: var(--primary-color);
-            font-weight: 600;
+        .buff-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--neon-blue);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            transition: 0.2s;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* 移动端按下时的缩放效果 */
-        button:active {
-            transform: scale(0.92);
-            filter: brightness(0.9);
+        .buff-btn:active {
+            transform: scale(0.95);
+            background: var(--neon-blue);
+            color: black;
+            box-shadow: 0 0 30px var(--neon-blue);
         }
 
-        .music-btn {
-            background: rgba(255, 255, 255, 0.1) !important;
-            color: white !important;
-            border: 1px solid rgba(255, 255, 255, 0.5) !important;
-        }
-
-        .heart {
+        .buff-btn::after {
+            content: "CLICK";
             position: absolute;
-            pointer-events: none;
-            z-index: 1;
-            will-change: transform;
-            animation: floatUp 5s linear forwards;
-            filter: drop-shadow(0 0 5px rgba(255,192,203,0.5));
+            right: 10px;
+            font-size: 0.6rem;
+            opacity: 0.5;
         }
 
-        @keyframes floatUp {
-            0% { transform: translateY(105vh) scale(0.5) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.8; }
-            100% { transform: translateY(-10vh) scale(1.2) rotate(20deg); opacity: 0; }
+        /* 惊喜弹窗 */
+        #popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 80%;
+            max-width: 320px;
+            background: #1a1a1a;
+            border: 3px solid var(--neon-pink);
+            padding: 30px 20px;
+            border-radius: 20px;
+            z-index: 100;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 50px rgba(255, 0, 255, 0.5);
         }
+
+        #popup.active { transform: translate(-50%, -50%) scale(1); }
+
+        .popup-title { color: var(--neon-pink); font-weight: bold; margin-bottom: 15px; font-size: 1.4rem;}
+        .popup-body { line-height: 1.6; font-size: 1rem; color: #ccc;}
+
+        .close-btn {
+            margin-top: 20px;
+            background: var(--neon-pink);
+            border: none;
+            padding: 8px 25px;
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        /* 音乐光柱动画 */
+        .music-bar {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 3px;
+            height: 20px;
+            align-items: flex-end;
+            cursor: pointer;
+            z-index: 100;
+        }
+        .bar { width: 3px; background: var(--neon-green); animation: bounce 0.5s infinite alternate; }
+        @keyframes bounce { from { height: 5px; } to { height: 20px; } }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>🎂 生日快乐</h1>
-        <p>愿所有美好如期而至<br>永远年轻，永远热泪盈眶 💖</p>
-        
-        <div class="btn-group">
-            <button onclick="showSurprise()">点击领取惊喜 🎁</button>
-            <button onclick="toggleMusic()" class="music-btn">🎵 音乐开关</button>
+    <div class="main-ui">
+        <div class="title-zone">
+            <h1>Level Up! 30+</h1>
+            <div class="subtitle">表哥·年度旗舰版</div>
+        </div>
+
+        <div class="skill-slots">
+            <button class="buff-btn" onclick="showBuff('career')">⚡ 事业：开启狂暴模式</button>
+            <button class="buff-btn" onclick="showBuff('family')">❤️ 家庭：满血回复BUFF</button>
+            <button class="buff-btn" onclick="showBuff('wealth')">💎 财富：触发掉宝暴击</button>
+            <button class="buff-btn" onclick="showBuff('free')">🕹️ 自由：强制挂机休假</button>
         </div>
     </div>
 
-    <audio id="music" loop preload="auto">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+    <div id="popup">
+        <div class="popup-title" id="p-title"></div>
+        <div class="popup-body" id="p-body"></div>
+        <button class="close-btn" onclick="closePopup()">收下Buff</button>
+    </div>
+
+    <div class="music-bar" onclick="toggleMusic()">
+        <div class="bar" style="animation-delay: 0.1s"></div>
+        <div class="bar" style="animation-delay: 0.3s"></div>
+        <div class="bar" style="animation-delay: 0.2s"></div>
+        <span style="font-size: 12px; margin-left: 5px;">BGM</span>
+    </div>
+
+    <audio id="music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">
     </audio>
 
     <script>
-        // 降低手机端的生成频率，节省电量和性能
-        function createHeart() {
-            const heart = document.createElement("div");
-            heart.className = "heart";
-            heart.innerHTML = "💖";
-            heart.style.left = Math.random() * 95 + "vw";
-            heart.style.fontSize = Math.random() * 15 + 15 + "px";
-            
-            const duration = Math.random() * 2 + 4;
-            heart.style.animationDuration = duration + "s";
-            
-            document.body.appendChild(heart);
-
-            setTimeout(() => heart.remove(), duration * 1000);
-        }
-
-        // 手机端每 600ms 生成一个爱心即可，视觉效果已足够
-        setInterval(createHeart, 600);
-
-        function showSurprise() {
-            // 使用更友好的提示
-            alert("✨ 祝你：\n\n三餐四季 温暖有趣\n生日快乐，我的朋友！");
-        }
-
-        const music = document.getElementById("music");
-        function toggleMusic() {
-            if (music.paused) {
-                music.play().catch(() => {
-                    alert("由于手机系统限制，请再次点击按钮以播放音乐 🎵");
-                });
-            } else {
-                music.pause();
+        const buffs = {
+            career: {
+                t: "系统提示：高升！",
+                b: "检测到表哥当前才华溢出，老板看你眼神都带光！今年项目稳如老狗，职位原地起飞。去战斗吧，MVP！"
+            },
+            family: {
+                t: "后方支援：稳固！",
+                b: "神兽（娃）今天格外听话，嫂子支持力度+100%。你是家里的超级英雄，今天卸下盔甲，你是被全家宠爱的那个！"
+            },
+            wealth: {
+                t: "财运：金光闪闪！",
+                b: "不管是股市还是年终，统统触发暴击奖励！存款数字涨得比你娃的身高还快，买心仪的大玩具再也不用看脸色！"
+            },
+            free: {
+                t: "自由：限时开启！",
+                b: "系统强制清空工作群消息！今天你不是谁的员工，也不是谁的爸爸/老公，你只是你自己。游戏走起，快乐万岁！"
             }
+        };
+
+        function showBuff(type) {
+            document.getElementById('p-title').innerText = buffs[type].t;
+            document.getElementById('p-body').innerText = buffs[type].b;
+            document.getElementById('popup').classList.add('active');
+            
+            // 手机震动
+            if (navigator.vibrate) navigator.vibrate(50);
+        }
+
+        function closePopup() {
+            document.getElementById('popup').classList.remove('active');
+        }
+
+        function toggleMusic() {
+            const m = document.getElementById('music');
+            m.paused ? m.play() : m.pause();
         }
     </script>
 </body>
